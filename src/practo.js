@@ -41,9 +41,14 @@ Practo.prototype.ping = function (callback) {
     payload: {
       'city': 'bangalore'
     }
-  }, function (error, reply) {
+  }, function (error, response) {
+    debug(response.statusCode);
     if (!error) {
-      callback(null, 'pong');
+      if (response.statusCode === 200) {
+        callback(null, 'pong');
+      } else {
+        callback(response.body, null);
+      }
     } else {
       callback(error, null);
     }
@@ -51,7 +56,7 @@ Practo.prototype.ping = function (callback) {
 }
 
 /**
-**** * List doctors
+ **** * List doctors
  * @param{ option } : option object : page
  * @param{ Function}: callback function
  */
@@ -67,10 +72,10 @@ Practo.prototype.list_doctors = function (option, callback) {
 }
 
 /**
-**** * List doctors
+ **** * List doctors
  * @param{ option } : option object : page
  * @param{ Function}: callback function
-*/
+ */
 Practo.prototype.get_doctor = function (option, callback) {
   var self = this;
   debug("End url: ", self.endpoints.fetch_doctor_url(option.id));
@@ -81,10 +86,10 @@ Practo.prototype.get_doctor = function (option, callback) {
 
 
 /**
-**** * List practices
+ **** * List practices
  * @param{ option } : option object : page
  * @param{ Function}: callback function
-*/
+ */
 Practo.prototype.list_practices = function (option, callback) {
   var self = this;
   debug("End url: ", self.endpoints.practices_url());
@@ -97,23 +102,23 @@ Practo.prototype.list_practices = function (option, callback) {
 }
 
 /**
-**** * Get practice detail
+ **** * Get practice detail
  * @param{ option } : option object : page
  * @param{ Function}: callback function
-*/
+ */
 Practo.prototype.get_practice = function (option, callback) {
   var self = this;
   debug("End url: ", self.endpoints.fetch_practice_url(option.id));
   this.adapter.get({
     url: self.endpoints.fetch_practice_url(option.id),
     payload: {
-      'with_doctors' : !!option.with_doctors 
+      'with_doctors': !! option.with_doctors
     }
   }, callback);
 }
 
 /**
-**** * Search
+ **** * Search
  * @param{ option } : option object : page
  * @param{ Function}: callback function
  */
@@ -127,11 +132,11 @@ Practo.prototype.search = function (option, callback) {
 }
 
 /**
-**** * List cities
+ **** * List cities
  * @param{ option } : option object : page
  * @param{ Function}: callback function
  */
-Practo.prototype.list_cities = function( callback ) {
+Practo.prototype.list_cities = function (callback) {
   var self = this;
   debug("End url: ", self.endpoints.city_search_url());
   this.adapter.get({
@@ -140,11 +145,11 @@ Practo.prototype.list_cities = function( callback ) {
 }
 
 /**
-**** * list of localities, specialties for a city
+ **** * list of localities, specialties for a city
  * @param{ option } : option object : page
  * @param{ Function}: callback function
  */
-Practo.prototype.get_city_report = function( option, callback) {
+Practo.prototype.get_city_report = function (option, callback) {
   var self = this;
   debug("End url: ", self.endpoints.city_report_url(option.id));
   this.adapter.get({

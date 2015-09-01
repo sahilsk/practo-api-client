@@ -23,8 +23,11 @@ Adapter.prototype.get = function (option, callback) {
   }, response);
 
   function response(error, response, body) {
-    debug(error, response, body);
-    callback(error, body);
+    debug(error, response.statusCode, body);
+    callback(error, {
+      statusCode: response.statusCode,
+      body: body
+    });
   }
 }
 
@@ -37,12 +40,11 @@ Adapter.prototype.post = function (option, callback) {
   }, response);
 
   function response(error, response, body) {
-    debug(error, response);
-    if (!error && response.statusCode == 200) {
-      callback(null, 'pong');
-    } else {
-      callback(error, null);
-    }
+    debug(error, response.statusCode, body);
+    callback(error, {
+      statusCode: response.statusCode,
+      body: body
+    });
   }
 }
 

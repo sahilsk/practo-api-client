@@ -1,10 +1,14 @@
 var gulp = require('gulp');
-var mocha = require('gulp-mocha');
+var mocha = require('gulp-spawn-mocha');
 var beautify = require('gulp-beautify');
 
 gulp.task('test', function () {
     return gulp.src('test/test.js', {read: false})
-        .pipe(mocha({reporter: ''}));
+        .pipe(mocha({
+        		R: 'spec', 
+        		timeout: 5000,
+        		env: process.env
+        		}));
 });
 
 gulp.task('beautify', function() {

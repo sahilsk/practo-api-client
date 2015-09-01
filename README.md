@@ -3,31 +3,67 @@ Practo-API  javascript client
 
 A simple javascript client to talk to [practo-api](https://developers.practo.com/docs)
 
+
+Installation
+---
+
+    npm i practo-api-client
+ 
+
+To run-tests
+----
+    
+    #Clone project
+    git clone git@github.com:sahilsk/practo-api-client.git
+    cd practo-api-client
+    # install dependencies
+    npm install 
+    # install global dependencies for test runners
+    npm install gulp  -g
+    # Fire test
+    npm test
+
+
 How-to
 ----
 
 #### Create new client
 
     var pClient = new Practo({
-    	host: "https://api.practo.com", //Default
-    	client_id: "<client id goes here",
-    	token:  "<practo client token goes here>"
+        host: "https://api.practo.com", //Default
+        client_id: "<client id goes here",
+        token:  "<practo client token goes here>"
     });
 
 #### Ping practo-api
 
     pClient.ping( function(err, reply){
-    	if(err) throw  new Error(err);
-    	console.log(reply); // 'pong'
+        if(err) throw  new Error(err);
+        console.log(reply); // 'pong'
     });
 
 Now you're ready to roll. 
+
+eg.
+
+    pClient.list_doctors( {page:1}, function(err, reply){
+        if( error || reply.statusCode !== 200 ){
+            throw new Error( reply.statusCode + ": " + reply.body);
+        }else{
+            //#do-great with doctors : reply.body['doctors'] 
+        }
+    }
 
 > Read about api endpoints on practo website [here](https://developers.practo.com/docs#/reference/using-the-api). This client mimic the same.
 
 
 APIs
 ---
+
+`reply` object: 
+- `statusCode`: http status code received from api-server
+- `body`: server response body content
+
 
 ## Doctors Details
 
@@ -48,7 +84,7 @@ APIs
 
 ---------
 
-## 	Practice Details
+##  Practice Details
 
 1. List All Practices
 
@@ -64,7 +100,7 @@ APIs
     options: 
     - `id(number)`: doctor id
     - `with_doctors(boolean=false)`:  Get all practices where doctor visits. 
-	
+    
 --------
 
 ## Search 
@@ -84,10 +120,10 @@ APIs
     - `sort_by(string, practo_ranking)`: Sorts result by distance, years of experience, consultation fees or number of recommendations.
     -`filters(array)`: filters[qualification] - Filter results where doctor has given qualification. Ex. MDS, MD, MBBS ;
     
-    	- `filters[min_fee]` - Filter results where consultation fee is atleast the value provided. Ex. 100 ; filters[max_fee] - Filter results where consultation fee is atmost the value provided. Ex. 1000 ;
-    	- `filters[min_time]` - Filter results where doctor is available on or after given time on selected days. Value should be in 24 hours hh:mm format. Ex. '00:00' ;
-    	- `filters[max_time]` - Filter results where doctor is available before given time on selected days. Value should be in 24 hours hh:mm format. Ex. '23:30' ;
-    	- `filters[day][]` - Filter results availability of doctor on a given day. Set to any to search for all days or choose from day values monday, tuesday, wednesday, thursday, friday, saturday or sunday. This parameter can be overloaded i.e., used multiple times to specify set of days.
+        - `filters[min_fee]` - Filter results where consultation fee is atleast the value provided. Ex. 100 ; filters[max_fee] - Filter results where consultation fee is atmost the value provided. Ex. 1000 ;
+        - `filters[min_time]` - Filter results where doctor is available on or after given time on selected days. Value should be in 24 hours hh:mm format. Ex. '00:00' ;
+        - `filters[max_time]` - Filter results where doctor is available before given time on selected days. Value should be in 24 hours hh:mm format. Ex. '23:30' ;
+        - `filters[day][]` - Filter results availability of doctor on a given day. Set to any to search for all days or choose from day values monday, tuesday, wednesday, thursday, friday, saturday or sunday. This parameter can be overloaded i.e., used multiple times to specify set of days.
 
 --------
 
