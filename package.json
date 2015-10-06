@@ -1,6 +1,6 @@
 {
   "name": "practo-api-client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Javascript client to talk to practo api",
   "main": "index.js",
   "scripts": {

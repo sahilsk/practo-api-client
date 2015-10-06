@@ -23,13 +23,17 @@ Adapter.prototype.get = function (option, callback) {
   }, response);
 
   function response(error, response, body) {
+    if( error){
+      callback(error, null);
+      return;
+    }
     response.statusCode = (response && response.statusCode) || 500;
     debug(error, response.statusCode, body);
     if (response.statusCode >= 400) {
       error = body;
     }
     callback(error, {
-      statusCode: (response && response.statusCode) || 500,
+      statusCode: response.statusCode,
       body: body
     });
   }
@@ -44,6 +48,10 @@ Adapter.prototype.post = function (option, callback) {
   }, response);
 
   function response(error, response, body) {
+    if( error){
+      callback(error, null);
+      return;
+    }
     response.statusCode = (response && response.statusCode) || 500;
     debug(error, response.statusCode, body);
     if (response.statusCode >= 400) {
